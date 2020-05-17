@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-secondary',
-  templateUrl: './secondary.component.html'
+  selector: 'app-operations',
+  templateUrl: './operations.component.html'
 })
-export class SecondaryComponent {
+export class OperationsComponent {
   username = '';
   usernameTemp = '';
   number1 = 0;
@@ -38,9 +38,5 @@ export class SecondaryComponent {
         throw new Error('Unknown operation: ' + this.operation);
       }
     }
-  }
-
-  changeUsername(): void {
-    this.username = this.usernameTemp;
   }
 }

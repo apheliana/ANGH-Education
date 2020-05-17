@@ -4,14 +4,17 @@ import { FormsModule }   from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SecondaryComponent } from './secondary.component';
 import { SubPageComponent } from './sub-page.component';
+import { UsernameComponent } from './username.component';
+import { OperationsComponent } from './operations.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    SecondaryComponent,
-    SubPageComponent
+    SubPageComponent,
+    UsernameComponent,
+    OperationsComponent
   ],
   imports: [
     BrowserModule,
