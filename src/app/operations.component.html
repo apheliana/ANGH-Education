@@ -2,11 +2,11 @@
 
 <div>
   <input [(ngModel)]="number1" />
-  <input [(ngModel)]="number2" />
   <button (click)="changeOperation('add')">+</button>
   <button (click)="changeOperation('subtract')">-</button>
   <button (click)="changeOperation('multiply')">*</button>
   <button (click)="changeOperation('divide')">/</button>
+  <input [(ngModel)]="number2" />
   current op: {{ operation }}
   <button (click)="calculate()">Calculate</button>
   res: {{ result }}

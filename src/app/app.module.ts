@@ -4,7 +4,7 @@ import { FormsModule }   from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SubPageComponent } from './sub-page.component';
+import { DataTypesComponent } from './data-types.component';
 import { UsernameComponent } from './username.component';
 import { OperationsComponent } from './operations.component';
 
@@ -12,7 +12,7 @@ import { OperationsComponent } from './operations.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SubPageComponent,
+    DataTypesComponent,
     UsernameComponent,
     OperationsComponent
   ],
