@@ -18,7 +18,19 @@ export class FormPractiseComponent {
 
     console.log('PersonsInformation',this.aile);
   }
-}
+
+  deleteRow(person: Person): void {
+    console.log('silinecek kisi: ' + person.name);
+    this.aile = this.aile.filter(item => item !== person);
+      }
+  selectRow(person: Person): void{
+    this.personsname=person.name;
+    this.personsage=person.age;
+  }
+    }
+
+
+
 
 class Person {
   name: string = '';

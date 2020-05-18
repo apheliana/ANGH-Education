@@ -14,22 +14,20 @@
 <div>
   <button (click)="enterPersonsInfo()">Submit</button>
 </div>
-
-<table border=1>
-  <td>
+<br>
+<div>
+  <table border="1">
     <tr>
-      Name
+      <th>Name</th>
+      <th>Age</th>
+      <th>Delete</th>
+      <th>Select</th>
     </tr>
     <tr *ngFor="let person of aile">
-      {{person.name}}
+      <td>{{person.name}}</td>
+      <td>{{person.age}}</td>
+      <td><button (click)="deleteRow(person)">Delete Row</button></td>
+      <td><button (click)="selectRow(person)">Select Row</button></td>
     </tr>
-  </td>
-  <td>
-    <tr>
-      Age
-    </tr>
-    <tr *ngFor="let person of aile">
-      {{person.age}}
-    </tr>
-  </td>
-</table>
+  </table>
+</div>
