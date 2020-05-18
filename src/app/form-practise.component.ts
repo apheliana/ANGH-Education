@@ -9,6 +9,14 @@ export class FormPractiseComponent {
   aile: Person[] = [];
   selectedperson:Person=null;
 
+  constructor() {
+    if (localStorage.getItem('aile') !== null) {
+      var retrievedAile = localStorage.getItem('aile');
+      //console.log('retrievedAile', JSON.parse(retrievedAile));
+      this.aile=JSON.parse(retrievedAile);
+    } else {}
+  }
+
   enterPersonsInfo(): void {
     
     const ebeveyn = new Person();
@@ -17,6 +25,7 @@ export class FormPractiseComponent {
     
       this.aile.push(ebeveyn);
       this.reset();
+      this.save();
 
     console.log('PersonsInformation',this.aile);
 
@@ -25,6 +34,7 @@ export class FormPractiseComponent {
   deleteRow(person: Person): void {
     console.log('silinecek kisi: ' + person.name);
     this.aile = this.aile.filter(item => item !== person);
+    this.save();
       }
   
   selectRow(person: Person): void{
@@ -36,6 +46,7 @@ export class FormPractiseComponent {
     this.selectedperson.name=this.personsname;
     this.selectedperson.age=this.personsage;
     this.reset();
+    this.save();
   }
   cancelPersonsInfo(): void {
     this.reset();
@@ -44,6 +55,9 @@ export class FormPractiseComponent {
     this.personsname='';
     this.personsage=0;
     this.selectedperson=null;
+  }
+  private save(): void {
+    localStorage.setItem('aile', JSON.stringify(this.aile));
   }
 }
 
