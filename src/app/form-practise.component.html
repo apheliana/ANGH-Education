@@ -14,3 +14,22 @@
 <div>
   <button (click)="enterPersonsInfo()">Submit</button>
 </div>
+
+<table border=1>
+  <td>
+    <tr>
+      Name
+    </tr>
+    <tr *ngFor="let person of aile">
+      {{person.name}}
+    </tr>
+  </td>
+  <td>
+    <tr>
+      Age
+    </tr>
+    <tr *ngFor="let person of aile">
+      {{person.age}}
+    </tr>
+  </td>
+</table>
