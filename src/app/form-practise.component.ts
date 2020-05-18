@@ -6,23 +6,19 @@ import { Component } from '@angular/core';
 export class FormPractiseComponent {
   personsnameTemp='Name?';
   personsname='';
-  
-  constructor() {
-    const ebeveyn = new PersonObj();
-    ebeveyn.name = this.enterPersonsInfo();
-  
-    console.log('PersonsInformation',ebeveyn);
+  personsageTemp=0;
+  personsage='';
 
-  }
-  
-  enterPersonsInfo(): string {
-    this.personsname = this.personsnameTemp;
-    console.log(this.personsname);
-    return this.personsname;
+  enterPersonsInfo(): void {
+    const ebeveyn = new PersonObj();
+    ebeveyn.name = this.personsnameTemp;
+    ebeveyn.age = this.personsageTemp;
+    console.log('PersonsInformation',ebeveyn);
   }
 }
 
 
 class PersonObj {
   name: string = '';
+  age: number = 0;
 }
