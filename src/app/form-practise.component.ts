@@ -4,13 +4,12 @@ import { Component } from '@angular/core';
   templateUrl: './form-practise.component.html'
 })
 export class FormPractiseComponent {
-  personsnameTemp='Name?';
-  personsname='';
+  personsnameTemp = '';
+  personsname = '';
   
   constructor() {
     const ebeveyn = new PersonObj();
     ebeveyn.name = this.enterPersonsInfo();
-  
     console.log('PersonsInformation',ebeveyn);
 
   }
@@ -21,7 +20,6 @@ export class FormPractiseComponent {
     return this.personsname;
   }
 }
-
 
 class PersonObj {
   name: string = '';
