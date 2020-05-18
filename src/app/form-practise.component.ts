@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: './form-practise-hw.component.html'
+  templateUrl: './form-practise.component.html'
 })
 export class FormPractiseComponent {
   personsname='';
