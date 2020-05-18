@@ -11,9 +11,13 @@ export class FormPractiseComponent {
 
   constructor() {
     if (localStorage.getItem('aile') !== null) {
-      var retrievedAile = localStorage.getItem('aile');
-      //console.log('retrievedAile', JSON.parse(retrievedAile));
-      this.aile=JSON.parse(retrievedAile);
+      if (localStorage.getItem('aile').length < 3) {
+        localStorage.removeItem('aile');
+        } else {
+            var retrievedAile = localStorage.getItem('aile');
+            //console.log('retrievedAile', JSON.parse(retrievedAile));
+            this.aile=JSON.parse(retrievedAile);
+          }
     } else {}
   }
 
