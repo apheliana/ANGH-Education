@@ -6,17 +6,26 @@ import { Component } from '@angular/core';
 export class FormPractiseComponent {
   personsname='';
   personsage=0;
+  
 
   enterPersonsInfo(): void {
-    const ebeveyn = new PersonObj();
-    ebeveyn.name = this.personsname;
-    ebeveyn.age = this.personsage;
-    console.log('PersonsInformation',ebeveyn);
+    const aile = new PersonObj();
+    
+    const ebeveyn = new Person();
+      ebeveyn.name = this.personsname;
+      ebeveyn.age = this.personsage;
+    
+      aile.persons.push(ebeveyn);
+
+    console.log('PersonsInformation',aile);
   }
 }
 
-
 class PersonObj {
+  persons: Person[] = [];
+}
+
+class Person {
   name: string = '';
   age: number = 0;
 }
