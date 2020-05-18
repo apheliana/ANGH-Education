@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { DataTypesComponent } from './data-types.component';
 import { UsernameComponent } from './username.component';
 import { OperationsComponent } from './operations.component';
-import { FormPractiseComponent } from './form-practise.component';
+import { FormPractiseComponent } from './form-practise-hw.component';
 
 @NgModule({
   declarations: [

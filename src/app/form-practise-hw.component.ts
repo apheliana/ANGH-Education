@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: './form-practise.component.html'
+  templateUrl: './form-practise-hw.component.html'
 })
 export class FormPractiseComponent {
-  personsnameTemp='Name?';
   personsname='';
-  personsageTemp=0;
-  personsage='';
+  personsage=0;
 
   enterPersonsInfo(): void {
     const ebeveyn = new PersonObj();
-    ebeveyn.name = this.personsnameTemp;
-    ebeveyn.age = this.personsageTemp;
+    ebeveyn.name = this.personsname;
+    ebeveyn.age = this.personsage;
     console.log('PersonsInformation',ebeveyn);
   }
 }
