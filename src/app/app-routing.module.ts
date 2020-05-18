@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { DataTypesComponent } from './data-types.component';
 import { UsernameComponent } from './username.component';
 import { OperationsComponent } from './operations.component';
+import { FormPractiseComponent } from './form-practise.component';
 
 const routes: Routes = [
   { path: "data-types", component: DataTypesComponent },
   { path: "username", component: UsernameComponent },
   { path: "operations", component: OperationsComponent },
+  { path: "form-practise", component: FormPractiseComponent },
 ];
 
 @NgModule({
