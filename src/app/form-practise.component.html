@@ -11,13 +11,18 @@
   <input [(ngModel)]="personsage" />
 </div>
 
-<div>
+<div *ngIf="this.viewState == 'add'">
   <button (click)="enterPersonsInfo()">Add New Row</button>
+
+</div>
+
+<div *ngIf="this.viewState == 'update'">
   <button (click)="updatePersonsInfo()">Update</button>
   <button (click)="cancelPersonsInfo()">Cancel</button>
 </div>
+
 <br>
-<div>
+<div *ngIf="this.usersTable; else noUser">
   <table border="1">
     <tr>
       <th>Name</th>
@@ -33,3 +38,6 @@
     </tr>
   </table>
 </div>
+<ng-template #noUser>
+  Please add a new person.
+</ng-template>

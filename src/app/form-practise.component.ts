@@ -8,17 +8,20 @@ export class FormPractiseComponent {
   personsage=0;
   aile: Person[] = [];
   selectedperson:Person=null;
+  viewState: 'add' | 'update' = 'add';
+  usersTable: boolean = false;
+  
+  private isButtonVisible = true;
 
   constructor() {
-    if (localStorage.getItem('aile') !== null) {
-      if (localStorage.getItem('aile').length < 3) {
-        localStorage.removeItem('aile');
-        } else {
-            var retrievedAile = localStorage.getItem('aile');
-            //console.log('retrievedAile', JSON.parse(retrievedAile));
-            this.aile=JSON.parse(retrievedAile);
-          }
-    } else {}
+    const aileJSON = localStorage.getItem('aile');
+    const aile = JSON.parse(aileJSON);
+    if (aile !== null) {
+      this.aile = aile;
+      if (this.aile.length!=0) {
+        this.usersTable = true;
+      }
+    }
   }
 
   enterPersonsInfo(): void {
@@ -30,6 +33,7 @@ export class FormPractiseComponent {
       this.aile.push(ebeveyn);
       this.reset();
       this.save();
+      this.usersTable = true;
 
     console.log('PersonsInformation',this.aile);
 
@@ -37,23 +41,29 @@ export class FormPractiseComponent {
 
   deleteRow(person: Person): void {
     console.log('silinecek kisi: ' + person.name);
-    this.aile = this.aile.filter(item => item !== person);
+    this.aile = this.aile.filter((item: any) => item !== person);
     this.save();
+    if (this.aile.length==0) {
+      this.usersTable = false;
+    }
       }
   
   selectRow(person: Person): void{
     this.personsname=person.name;
     this.personsage=person.age;
     this.selectedperson = person;
+    this.viewState='update';
   }
   updatePersonsInfo(): void {
     this.selectedperson.name=this.personsname;
     this.selectedperson.age=this.personsage;
     this.reset();
     this.save();
+    this.viewState='add';
   }
   cancelPersonsInfo(): void {
     this.reset();
+    this.viewState='add';
   }
   private reset(): void {
     this.personsname='';
@@ -64,9 +74,6 @@ export class FormPractiseComponent {
     localStorage.setItem('aile', JSON.stringify(this.aile));
   }
 }
-
-
-
 
 class Person {
   name: string = '';
