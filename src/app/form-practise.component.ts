@@ -9,43 +9,37 @@ export class FormPractiseComponent {
   aile: Person[] = [];
   selectedperson:Person=null;
   viewState: 'add' | 'update' = 'add';
-  usersTable: boolean = false;
-  
-  private isButtonVisible = true;
+  ifNameEmpty: boolean = false;
 
   constructor() {
     const aileJSON = localStorage.getItem('aile');
     const aile = JSON.parse(aileJSON);
     if (aile !== null) {
       this.aile = aile;
-      if (this.aile.length!=0) {
-        this.usersTable = true;
-      }
     }
   }
 
   enterPersonsInfo(): void {
-    
-    const ebeveyn = new Person();
+    if (this.validateForm()==false) {
+      this.ifNameEmpty = true;
+    } else{
+      const ebeveyn = new Person();
       ebeveyn.name = this.personsname;
       ebeveyn.age = this.personsage;
     
       this.aile.push(ebeveyn);
       this.reset();
       this.save();
-      this.usersTable = true;
 
     console.log('PersonsInformation',this.aile);
+    }
 
   }
 
   deleteRow(person: Person): void {
     console.log('silinecek kisi: ' + person.name);
-    this.aile = this.aile.filter((item: any) => item !== person);
+    this.aile = this.aile.filter(item => item !== person);
     this.save();
-    if (this.aile.length==0) {
-      this.usersTable = false;
-    }
       }
   
   selectRow(person: Person): void{
@@ -72,6 +66,14 @@ export class FormPractiseComponent {
   }
   private save(): void {
     localStorage.setItem('aile', JSON.stringify(this.aile));
+  }
+
+  private validateForm(): boolean {
+    if (this.personsname==null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
