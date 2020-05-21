@@ -1,31 +1,27 @@
-<style>
-  .Warning {
-    border: 2px outset red;
-    color: red;
-    text-align: center;
-  }
-  </style>
-
 <h3>Form Practise - Homework</h3>
 
 <div>
   What's your name?: 
   <input [(ngModel)]="personsname" />
 </div>
-<div *ngIf="this.ifNameEmpty" class="Warning">
-  Name can't be empty!
+
+<div>
+  What's your birth date?
+  <input type="date" [(ngModel)]="birthDate" />
 </div>
 <div>
-  What's your age?: 
-  <input [(ngModel)]="personsage" />
+  What's your age?: (positive numbers only)
+<input type="number" min="0" step="1" oninput="validity.valid||(value='');" [(ngModel)]="personsage" />
 </div>
 
-<div *ngIf="this.viewState == 'add'">
+<div *ngIf="errorMessage !== ''" class="Warning">{{ errorMessage }}</div>
+
+<div *ngIf="viewState == 'add'">
   <button (click)="enterPersonsInfo()">Add New Row</button>
 
 </div>
 
-<div *ngIf="this.viewState == 'update'">
+<div *ngIf="viewState == 'update'">
   <button (click)="updatePersonsInfo()">Update</button>
   <button (click)="cancelPersonsInfo()">Cancel</button>
 </div>
@@ -35,13 +31,17 @@
   <table border="1">
     <tr>
       <th>Name</th>
-      <th>Age</th>
+      <th>Input Age</th>
+      <th>Birth Date</th>
+      <th>Calculated Age</th>
       <th>Delete</th>
       <th>Select</th>
     </tr>
     <tr *ngFor="let person of aile">
       <td>{{person.name}}</td>
       <td>{{person.age}}</td>
+      <td>{{person.bdate}}</td>
+      <td>{{person.calculatedAge}}</td>
       <td><button (click)="deleteRow(person)">Delete Row</button></td>
       <td><button (click)="selectRow(person)">Select Row</button></td>
     </tr>
