@@ -12,19 +12,27 @@ export class FormPractiseComponent {
   viewState: 'add' | 'update' = 'add';
   errorMessage: string = '';
   birthDate='';
-  birthday: Date = new Date();
   
    parseDate(birthDate) {
-    var parts = birthDate.match(/(\d+)/g);
-    // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
-    return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+    if (birthDate === '') {
+      return new Date(birthDate);
+    } else {
+      var parts = birthDate.match(/(\d+)/g);
+      // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+      return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+    }
   }
 
-  calculateAge(birthday) { // birthday is a date
-    var ageDifMs = Date.now() - birthday.getTime();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  }
+  calculateAge() {
+    var today = new Date();
+    var birthday = this.parseDate(this.birthDate);
+    var age = today.getFullYear() - birthday.getFullYear();
+    var m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+        age--;
+    }
+    return age;
+}
 
   constructor() {
     const aileJSON = localStorage.getItem('aile');
@@ -41,7 +49,7 @@ export class FormPractiseComponent {
       ebeveyn.name = this.personsname;
       ebeveyn.age = this.personsage;
       ebeveyn.bdate = this.parseDate(this.birthDate);
-      ebeveyn.calculatedAge = this.calculateAge(this.birthday);
+      ebeveyn.calculatedAge = this.calculateAge();
       
       this.aile.push(ebeveyn);
       this.reset();
