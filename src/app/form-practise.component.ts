@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class FormPractiseComponent {
   personsname='';
-  personsage=0;
+  //personsage=0;
   aile: Person[] = [];
   selectedperson:Person = null;
   viewState: 'add' | 'update' = 'add';
@@ -43,18 +43,18 @@ export class FormPractiseComponent {
   }
 
   enterPersonsInfo(): void {
-    if (this.validateForm()) {
-
+    if (!this.validateForm()) {
+      return;
+    }
       const ebeveyn = new Person();
       ebeveyn.name = this.personsname;
-      ebeveyn.age = this.personsage;
+      //ebeveyn.age = this.personsage;
       ebeveyn.bdate = this.parseDate(this.birthDate);
       ebeveyn.calculatedAge = this.calculateAge();
       
       this.aile.push(ebeveyn);
       this.reset();
       this.save();
-    }
   }
 
   deleteRow(person: Person): void {
@@ -65,14 +65,14 @@ export class FormPractiseComponent {
   
   selectRow(person: Person): void{
     this.personsname=person.name;
-    this.personsage=person.age;
+    //this.personsage=person.age;
     this.selectedperson = person;
     this.viewState='update';
   }
   updatePersonsInfo(): void {
     if (this.validateForm()) {
       this.selectedperson.name=this.personsname;
-      this.selectedperson.age=this.personsage;
+      //this.selectedperson.age=this.personsage;
       //this.selectedperson.bdate=;
      
       this.reset();
@@ -86,7 +86,7 @@ export class FormPractiseComponent {
   }
   private reset(): void {
     this.personsname='';
-    this.personsage=0;
+    //this.personsage=0;
     this.selectedperson=null;
     this.birthDate='';
   }
@@ -99,16 +99,16 @@ export class FormPractiseComponent {
     if (this.personsname === '') {
       this.errorMessage = ' * Name can not be empty * ';
     }
-    if (Number(this.personsage) === 0) {
-      this.errorMessage += ' * Age can only be positive numbers * ';
-    }
+    //if (Number(this.personsage) === 0) {
+    //  this.errorMessage += ' * Age can only be positive numbers * ';
+    //}
     return this.errorMessage.length === 0
   }
 }
 
 class Person {
   name: string = '';
-  age: number = 0;
+  //age: number = 0;
   bdate: Date = new Date();
   calculatedAge: number = 0;
 }

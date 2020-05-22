@@ -9,16 +9,18 @@
   What's your birth date?
   <input type="date" [(ngModel)]="birthDate" />
 </div>
+
+<!--
 <div>
   What's your age?: (positive numbers only)
-<input type="number" min="0" step="1" oninput="validity.valid||(value='');" [(ngModel)]="personsage" />
+  <input type="number" min="0" step="1" oninput="validity.valid||(value='');" [(ngModel)]="personsage" />
 </div>
+-->
 
 <div *ngIf="errorMessage !== ''" class="Warning">{{ errorMessage }}</div>
 
 <div *ngIf="viewState == 'add'">
   <button (click)="enterPersonsInfo()">Add New Row</button>
-
 </div>
 
 <div *ngIf="viewState == 'update'">
@@ -31,7 +33,7 @@
   <table border="1">
     <tr>
       <th>Name</th>
-      <th>Input Age</th>
+      <!--<th>Input Age</th>-->
       <th>Birth Date</th>
       <th>Calculated Age</th>
       <th>Delete</th>
@@ -39,7 +41,7 @@
     </tr>
     <tr *ngFor="let person of aile">
       <td>{{person.name}}</td>
-      <td>{{person.age}}</td>
+      <!--<td>{{person.age}}</td>-->
       <td>{{person.bdate}}</td>
       <td>{{person.calculatedAge}}</td>
       <td><button (click)="deleteRow(person)">Delete Row</button></td>
