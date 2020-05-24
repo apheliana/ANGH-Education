@@ -1,22 +1,37 @@
+
 <h3>Form Practise - Homework</h3>
 
 <div>
-  What's your name?: 
+  What's your name?
   <input [(ngModel)]="personsname" />
 </div>
 
 <div>
   What's your birth date?
-  <input type="date" [(ngModel)]="birthDate" />
+  <input type="date" [(ngModel)]="birthDateText" />
 </div>
 
+<div>
+  Are you smoking?
+  <input type="radio" [value]="true" name="smoking" [(ngModel)]="isSmoking" /> Yes
+  <input type="radio" [value]="false" name="smoking" [(ngModel)]="isSmoking" /> No
+</div>
+
+<div>
+  How many children have you got?
+  <input [(ngModel)]="noOfChildren" />
+</div>
+
+<div>
+  Search by name:
+  <input [(ngModel)]="searchName" /> <button (click)="searchByName()">Search</button>
+</div>
 <!--
 <div>
-  What's your age?: (positive numbers only)
-  <input type="number" min="0" step="1" oninput="validity.valid||(value='');" [(ngModel)]="personsage" />
+  Search everything:
+  <input [(ngModel)]="searchAll" /> <button (click)="searchAll()">Search</button>
 </div>
 -->
-
 <div *ngIf="errorMessage !== ''" class="Warning">{{ errorMessage }}</div>
 
 <div *ngIf="viewState == 'add'">
@@ -33,17 +48,19 @@
   <table border="1">
     <tr>
       <th>Name</th>
-      <!--<th>Input Age</th>-->
       <th>Birth Date</th>
-      <th>Calculated Age</th>
+      <th>Age</th>
+      <th>Smoking?</th>
+      <th>Children</th>
       <th>Delete</th>
       <th>Select</th>
     </tr>
-    <tr *ngFor="let person of aile">
+    <tr *ngFor="let person of aileResult">
       <td>{{person.name}}</td>
-      <!--<td>{{person.age}}</td>-->
-      <td>{{person.bdate}}</td>
-      <td>{{person.calculatedAge}}</td>
+      <td>{{person.birthDate}}</td>
+      <td>{{person.age}}</td>
+      <td>{{person._isSmoking}}</td>
+      <td>{{person.noOfChildren}}</td>
       <td><button (click)="deleteRow(person)">Delete Row</button></td>
       <td><button (click)="selectRow(person)">Select Row</button></td>
     </tr>

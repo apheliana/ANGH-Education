@@ -1,95 +1,111 @@
 import { Component } from '@angular/core';
+import { differenceInYears, format, parseISO } from 'date-fns';
 
 @Component({
   templateUrl: './form-practise.component.html',
   styleUrls: ['./form-practise.component.css'],
 })
 export class FormPractiseComponent {
-  personsname='';
-  //personsage=0;
+  personsname = '';
   aile: Person[] = [];
-  selectedperson:Person = null;
+  aileResult : Person[] = []; 
+  selectedperson: Person = null;
   viewState: 'add' | 'update' = 'add';
   errorMessage: string = '';
-  birthDate='';
-  
-   parseDate(birthDate) {
-    if (birthDate === '') {
-      return new Date(birthDate);
-    } else {
-      var parts = birthDate.match(/(\d+)/g);
-      // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
-      return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
-    }
-  }
-
-  calculateAge() {
-    var today = new Date();
-    var birthday = this.parseDate(this.birthDate);
-    var age = today.getFullYear() - birthday.getFullYear();
-    var m = today.getMonth() - birthday.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-        age--;
-    }
-    return age;
-}
+  birthDateText: string = '';
+  searchName: string = '';
+  isSmoking: boolean = false;
+  noOfChildren: number = 0;
 
   constructor() {
     const aileJSON = localStorage.getItem('aile');
-    const aile = JSON.parse(aileJSON);
+    const aile = JSON.parse(aileJSON) as PersonData[];
     if (aile !== null) {
-      this.aile = aile;
+      this.aile = aile.map(dataItem => {
+        console.log('dataItem', dataItem);
+        const person = new Person();
+        person.name = dataItem._name;
+        person.birthDate = parseISO(dataItem.birthDate);
+        person.isSmoking = dataItem.isSmoking;
+         if (person.isSmoking) {
+           person._isSmoking = "Yes";
+         } else {person._isSmoking = "No";}
+
+        
+        person.noOfChildren = dataItem.noOfChildren;
+        console.log('person', person);
+        return person;
+      });
+      this.aileResult  = this.aile;
     }
+  }
+
+  searchByName() {
+    this.aileResult = this.aile.filter(item => item.name.includes(this.searchName));
   }
 
   enterPersonsInfo(): void {
     if (!this.validateForm()) {
       return;
     }
-      const ebeveyn = new Person();
-      ebeveyn.name = this.personsname;
-      //ebeveyn.age = this.personsage;
-      ebeveyn.bdate = this.parseDate(this.birthDate);
-      ebeveyn.calculatedAge = this.calculateAge();
-      
-      this.aile.push(ebeveyn);
-      this.reset();
-      this.save();
+    const ebeveyn = new Person();
+    ebeveyn.name = this.personsname;
+    ebeveyn.birthDate = parseISO(this.birthDateText);
+    ebeveyn.isSmoking = this.isSmoking;
+    if (this.isSmoking) {
+      ebeveyn._isSmoking = "Yes";
+    } else {ebeveyn._isSmoking = "No";}
+    ebeveyn.noOfChildren = this.noOfChildren;
+
+    console.log('ebeveyn', ebeveyn);
+
+    this.aile.push(ebeveyn);
+    this.reset();
+    this.save();
   }
 
   deleteRow(person: Person): void {
     console.log('silinecek kisi: ' + person.name);
     this.aile = this.aile.filter(item => item !== person);
+    this.aileResult  = this.aile;
     this.save();
-      }
-  
-  selectRow(person: Person): void{
-    this.personsname=person.name;
-    //this.personsage=person.age;
+  }
+
+  selectRow(person: Person): void {
+    this.personsname = person.name;
+    this.birthDateText = format(person.birthDate, 'yyyy-MM-dd');
+    this.isSmoking = person.isSmoking;
+    this.noOfChildren = person.noOfChildren;
     this.selectedperson = person;
-    this.viewState='update';
+    this.viewState = 'update';
   }
+
   updatePersonsInfo(): void {
-    if (this.validateForm()) {
-      this.selectedperson.name=this.personsname;
-      //this.selectedperson.age=this.personsage;
-      //this.selectedperson.bdate=;
-     
-      this.reset();
-      this.save();
-      this.viewState='add';
+    if (!this.validateForm()) {
+      return;
     }
+
+    this.selectedperson.name = this.personsname;
+    this.selectedperson.birthDate = parseISO(this.birthDateText);
+    this.selectedperson.isSmoking = this.isSmoking;
+    this.selectedperson.noOfChildren = this.noOfChildren;
+
+    this.reset();
+    this.save();
+    this.viewState = 'add';
   }
+
   cancelPersonsInfo(): void {
     this.reset();
-    this.viewState='add';
+    this.viewState = 'add';
   }
+
   private reset(): void {
-    this.personsname='';
-    //this.personsage=0;
-    this.selectedperson=null;
-    this.birthDate='';
+    this.personsname = '';
+    this.birthDateText = '';
+    this.selectedperson = null;
   }
+
   private save(): void {
     localStorage.setItem('aile', JSON.stringify(this.aile));
   }
@@ -99,16 +115,36 @@ export class FormPractiseComponent {
     if (this.personsname === '') {
       this.errorMessage = ' * Name can not be empty * ';
     }
-    //if (Number(this.personsage) === 0) {
-    //  this.errorMessage += ' * Age can only be positive numbers * ';
-    //}
     return this.errorMessage.length === 0
   }
 }
 
+interface PersonData {
+  birthDate: string;
+  _name: string;
+  isSmoking: boolean;
+  noOfChildren: number;
+}
+
 class Person {
-  name: string = '';
-  //age: number = 0;
-  bdate: Date = new Date();
-  calculatedAge: number = 0;
+  get name(): string {
+    return this._name;
+  }
+  set name(value) {
+    if (value === 'ackhmed') {
+      throw new Error('ackhmed olamaz!');
+    }
+    this._name = value;
+  }
+  private _name = '';
+  
+  birthDate: Date = new Date();
+
+  get age(): number {
+    return differenceInYears(new Date(), this.birthDate);
+  }
+
+  isSmoking: boolean;
+  _isSmoking: string;
+  noOfChildren: number;
 }
