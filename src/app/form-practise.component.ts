@@ -14,7 +14,9 @@ export class FormPractiseComponent {
   errorMessage: string = '';
   birthDateText: string = '';
   searchName: string = '';
-  isSmoking: boolean = false;
+  searchAll: string = '';
+  isSmoking: string = '';
+  haveChildren: boolean = false;
   noOfChildren: number = 0;
 
   constructor() {
@@ -27,11 +29,7 @@ export class FormPractiseComponent {
         person.name = dataItem._name;
         person.birthDate = parseISO(dataItem.birthDate);
         person.isSmoking = dataItem.isSmoking;
-         if (person.isSmoking) {
-           person._isSmoking = "Yes";
-         } else {person._isSmoking = "No";}
-
-        
+        person.haveChildren = dataItem.haveChildren;
         person.noOfChildren = dataItem.noOfChildren;
         console.log('person', person);
         return person;
@@ -44,6 +42,10 @@ export class FormPractiseComponent {
     this.aileResult = this.aile.filter(item => item.name.includes(this.searchName));
   }
 
+  searchInAll() {
+    this.aileResult = this.aile.filter(item => item.name.includes(this.searchAll));
+  }
+  
   enterPersonsInfo(): void {
     if (!this.validateForm()) {
       return;
@@ -52,9 +54,7 @@ export class FormPractiseComponent {
     ebeveyn.name = this.personsname;
     ebeveyn.birthDate = parseISO(this.birthDateText);
     ebeveyn.isSmoking = this.isSmoking;
-    if (this.isSmoking) {
-      ebeveyn._isSmoking = "Yes";
-    } else {ebeveyn._isSmoking = "No";}
+    ebeveyn.haveChildren = this.haveChildren;
     ebeveyn.noOfChildren = this.noOfChildren;
 
     console.log('ebeveyn', ebeveyn);
@@ -75,6 +75,7 @@ export class FormPractiseComponent {
     this.personsname = person.name;
     this.birthDateText = format(person.birthDate, 'yyyy-MM-dd');
     this.isSmoking = person.isSmoking;
+    this.haveChildren = person.haveChildren;
     this.noOfChildren = person.noOfChildren;
     this.selectedperson = person;
     this.viewState = 'update';
@@ -88,8 +89,8 @@ export class FormPractiseComponent {
     this.selectedperson.name = this.personsname;
     this.selectedperson.birthDate = parseISO(this.birthDateText);
     this.selectedperson.isSmoking = this.isSmoking;
+    this.selectedperson.haveChildren = this.haveChildren;
     this.selectedperson.noOfChildren = this.noOfChildren;
-
     this.reset();
     this.save();
     this.viewState = 'add';
@@ -122,7 +123,8 @@ export class FormPractiseComponent {
 interface PersonData {
   birthDate: string;
   _name: string;
-  isSmoking: boolean;
+  isSmoking: string;
+  haveChildren: boolean;
   noOfChildren: number;
 }
 
@@ -143,8 +145,7 @@ class Person {
   get age(): number {
     return differenceInYears(new Date(), this.birthDate);
   }
-
-  isSmoking: boolean;
-  _isSmoking: string;
+  isSmoking: string = '';
+  haveChildren: boolean = true;
   noOfChildren: number;
 }

@@ -13,12 +13,18 @@
 
 <div>
   Are you smoking?
-  <input type="radio" [value]="true" name="smoking" [(ngModel)]="isSmoking" /> Yes
-  <input type="radio" [value]="false" name="smoking" [(ngModel)]="isSmoking" /> No
+  <input type="radio" value="Yes" name="smoking" [(ngModel)]="isSmoking" /> Yes
+  <input type="radio" value="No" name="smoking" [(ngModel)]="isSmoking" /> No
 </div>
 
 <div>
-  How many children have you got?
+  Do you have children?
+  <input type="radio" [value]="true" name="haveChildren" [(ngModel)]="haveChildren" /> Yes
+  <input type="radio" [value]="false" name="haveChildren" [(ngModel)]="haveChildren" /> No
+</div>
+
+<div *ngIf="haveChildren">
+  How many children do you have?
   <input [(ngModel)]="noOfChildren" />
 </div>
 
@@ -26,12 +32,12 @@
   Search by name:
   <input [(ngModel)]="searchName" /> <button (click)="searchByName()">Search</button>
 </div>
-<!--
+
 <div>
   Search everything:
-  <input [(ngModel)]="searchAll" /> <button (click)="searchAll()">Search</button>
+  <input [(ngModel)]="searchAll" /> <button (click)="searchInAll()">Search</button>
 </div>
--->
+
 <div *ngIf="errorMessage !== ''" class="Warning">{{ errorMessage }}</div>
 
 <div *ngIf="viewState == 'add'">
@@ -59,8 +65,9 @@
       <td>{{person.name}}</td>
       <td>{{person.birthDate}}</td>
       <td>{{person.age}}</td>
-      <td>{{person._isSmoking}}</td>
-      <td>{{person.noOfChildren}}</td>
+      <td>{{person.isSmoking}}</td>
+      <td *ngIf="!person.noOfChildren">None </td>
+      <td *ngIf="person.noOfChildren">Yes ({{person.noOfChildren}})</td>
       <td><button (click)="deleteRow(person)">Delete Row</button></td>
       <td><button (click)="selectRow(person)">Select Row</button></td>
     </tr>
