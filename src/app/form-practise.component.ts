@@ -1,23 +1,25 @@
 import { Component } from '@angular/core';
 import { differenceInYears, format, parseISO } from 'date-fns';
+import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   templateUrl: './form-practise.component.html',
   styleUrls: ['./form-practise.component.css'],
 })
 export class FormPractiseComponent {
-  personsname = '';
   aile: Person[] = [];
-  aileResult : Person[] = []; 
+  aileResult : Person[] = [];
+  birthDateText: string = '';
+  errorMessage: string = '';
+  haveChildren: boolean = false;
+  isSmoking: string = '';
+  noOfChildren: number = 0;
+  personsname: string = '';
+  personslastname: string = '';
+  searchAll: string = '';
+  searchName: string = '';
   selectedperson: Person = null;
   viewState: 'add' | 'update' = 'add';
-  errorMessage: string = '';
-  birthDateText: string = '';
-  searchName: string = '';
-  searchAll: string = '';
-  isSmoking: string = '';
-  haveChildren: boolean = false;
-  noOfChildren: number = 0;
 
   constructor() {
     const aileJSON = localStorage.getItem('aile');
@@ -27,6 +29,7 @@ export class FormPractiseComponent {
         console.log('dataItem', dataItem);
         const person = new Person();
         person.name = dataItem._name;
+        person.lastname = dataItem._lastname;
         person.birthDate = parseISO(dataItem.birthDate);
         person.isSmoking = dataItem.isSmoking;
         person.haveChildren = dataItem.haveChildren;
@@ -38,20 +41,25 @@ export class FormPractiseComponent {
     }
   }
 
-  searchByName() {
-    this.aileResult = this.aile.filter(item => item.name.includes(this.searchName));
+  cancelPersonsInfo(): void {
+    this.reset();
+    this.viewState = 'add';
   }
 
-  searchInAll() {
-    this.aileResult = this.aile.filter(item => item.name.includes(this.searchAll));
+  deleteRow(person: Person): void {
+    console.log('silinecek kisi: ' + person.name);
+    this.aile = this.aile.filter(item => item !== person);
+    this.aileResult  = this.aile;
+    this.save();
   }
-  
+
   enterPersonsInfo(): void {
     if (!this.validateForm()) {
       return;
     }
     const ebeveyn = new Person();
     ebeveyn.name = this.personsname;
+    ebeveyn.lastname = this.personslastname;
     ebeveyn.birthDate = parseISO(this.birthDateText);
     ebeveyn.isSmoking = this.isSmoking;
     ebeveyn.haveChildren = this.haveChildren;
@@ -64,12 +72,21 @@ export class FormPractiseComponent {
     this.save();
   }
 
-  deleteRow(person: Person): void {
-    console.log('silinecek kisi: ' + person.name);
-    this.aile = this.aile.filter(item => item !== person);
-    this.aileResult  = this.aile;
-    this.save();
+  searchByName() {
+    this.aileResult = this.aile.filter(item => item.name.includes(this.searchName));
   }
+
+   searchInAll() {
+    this.aileResult = this.aile.filter(function (o) {
+        return Object.keys(o).some(function (k) {
+          this.o.forEach(element => {
+            element.includes(this.searchAll);
+            return o[k];
+          });  
+          
+        });
+    });
+}
 
   selectRow(person: Person): void {
     this.personsname = person.name;
@@ -96,11 +113,6 @@ export class FormPractiseComponent {
     this.viewState = 'add';
   }
 
-  cancelPersonsInfo(): void {
-    this.reset();
-    this.viewState = 'add';
-  }
-
   private reset(): void {
     this.personsname = '';
     this.birthDateText = '';
@@ -121,31 +133,41 @@ export class FormPractiseComponent {
 }
 
 interface PersonData {
-  birthDate: string;
   _name: string;
-  isSmoking: string;
+  _lastname: string;
+  birthDate: string;
   haveChildren: boolean;
+  isSmoking: string;
   noOfChildren: number;
 }
 
 class Person {
+  birthDate: Date = new Date();
+  haveChildren: boolean = true;
+  isSmoking: string = '';
+  noOfChildren: number;
+
   get name(): string {
     return this._name;
   }
   set name(value) {
-    if (value === 'ackhmed') {
-      throw new Error('ackhmed olamaz!');
-    }
     this._name = value;
   }
   private _name = '';
-  
-  birthDate: Date = new Date();
 
+  get lastname(): string {
+    return this._lastname;
+  }
+  set lastname(value) {
+    this._lastname = value;
+  }
+  private _lastname = '';
+
+  get fullname(): string {
+    return this._name + " " + this._lastname;
+  }
+  
   get age(): number {
     return differenceInYears(new Date(), this.birthDate);
   }
-  isSmoking: string = '';
-  haveChildren: boolean = true;
-  noOfChildren: number;
 }

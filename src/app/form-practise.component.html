@@ -7,6 +7,11 @@
 </div>
 
 <div>
+  What's your last name?
+  <input [(ngModel)]="personslastname" />
+</div>
+
+<div>
   What's your birth date?
   <input type="date" [(ngModel)]="birthDateText" />
 </div>
@@ -53,7 +58,7 @@
 <div *ngIf="aile.length > 0; else noUser">
   <table border="1">
     <tr>
-      <th>Name</th>
+      <th>Full Name</th>
       <th>Birth Date</th>
       <th>Age</th>
       <th>Smoking?</th>
@@ -62,7 +67,7 @@
       <th>Select</th>
     </tr>
     <tr *ngFor="let person of aileResult">
-      <td>{{person.name}}</td>
+      <td>{{person.fullname}}</td>
       <td>{{person.birthDate}}</td>
       <td>{{person.age}}</td>
       <td>{{person.isSmoking}}</td>
