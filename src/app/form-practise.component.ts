@@ -1,31 +1,33 @@
 import { Component } from '@angular/core';
-import { differenceInYears, format, parseISO } from 'date-fns';
-import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
+import { format, parseISO, isValid } from 'date-fns';
+import { areAllEquivalent, ArrayType } from '@angular/compiler/src/output/output_ast';
+import { Person } from './Person';
+import { PersonData } from './PersonData';
 
 @Component({
   templateUrl: './form-practise.component.html',
   styleUrls: ['./form-practise.component.css'],
 })
 export class FormPractiseComponent {
-  aile: Person[] = [];
-  aileResult : Person[] = [];
+  family: Person[] = [];
+  familyResult : Person[] = [];
   birthDateText: string = '';
-  errorMessage: string = '';
+  errorMessageArray: string[];
   haveChildren: boolean = false;
-  isSmoking: string = '';
+  isSmoking: boolean = false;
   noOfChildren: number = 0;
-  personsname: string = '';
-  personslastname: string = '';
+  name: string = '';
+  nameLast: string = '';
   searchAll: string = '';
   searchName: string = '';
   selectedperson: Person = null;
   viewState: 'add' | 'update' = 'add';
 
   constructor() {
-    const aileJSON = localStorage.getItem('aile');
-    const aile = JSON.parse(aileJSON) as PersonData[];
-    if (aile !== null) {
-      this.aile = aile.map(dataItem => {
+    const familyJSON = localStorage.getItem('family');
+    const family = JSON.parse(familyJSON) as PersonData[];
+    if (family !== null) {
+      this.family = family.map(dataItem => {
         console.log('dataItem', dataItem);
         const person = new Person();
         person.name = dataItem._name;
@@ -37,7 +39,7 @@ export class FormPractiseComponent {
         console.log('person', person);
         return person;
       });
-      this.aileResult  = this.aile;
+      this.familyResult  = this.family;
     }
   }
 
@@ -48,8 +50,8 @@ export class FormPractiseComponent {
 
   deleteRow(person: Person): void {
     console.log('silinecek kisi: ' + person.name);
-    this.aile = this.aile.filter(item => item !== person);
-    this.aileResult  = this.aile;
+    this.family = this.family.filter(item => item !== person);
+    this.familyResult  = this.family;
     this.save();
   }
 
@@ -57,39 +59,36 @@ export class FormPractiseComponent {
     if (!this.validateForm()) {
       return;
     }
-    const ebeveyn = new Person();
-    ebeveyn.name = this.personsname;
-    ebeveyn.lastname = this.personslastname;
-    ebeveyn.birthDate = parseISO(this.birthDateText);
-    ebeveyn.isSmoking = this.isSmoking;
-    ebeveyn.haveChildren = this.haveChildren;
-    ebeveyn.noOfChildren = this.noOfChildren;
+    const family = new Person();
+    family.name = this.name;
+    family.lastname = this.nameLast;
+    family.birthDate = parseISO(this.birthDateText);
+    family.isSmoking = this.isSmoking;
+    family.haveChildren = this.haveChildren;
+    family.noOfChildren = this.noOfChildren;
 
-    console.log('ebeveyn', ebeveyn);
+    console.log('family', family);
 
-    this.aile.push(ebeveyn);
+    this.family.push(family);
     this.reset();
     this.save();
   }
 
   searchByName() {
-    this.aileResult = this.aile.filter(item => item.name.includes(this.searchName));
+    this.familyResult = this.family.filter(item => item.name.includes(this.searchName));
   }
 
-   searchInAll() {
-    this.aileResult = this.aile.filter(function (o) {
-        return Object.keys(o).some(function (k) {
-          this.o.forEach(element => {
-            element.includes(this.searchAll);
-            return o[k];
-          });  
-          
-        });
+  searchInAll() {
+    this.familyResult = this.family.filter(item => {
+      const values = Object.values(item).join();
+      console.log('v', values);
+      return values.includes(this.searchAll);
     });
-}
+  }
 
   selectRow(person: Person): void {
-    this.personsname = person.name;
+    this.name = person.name;
+    this.nameLast = person.lastname;
     this.birthDateText = format(person.birthDate, 'yyyy-MM-dd');
     this.isSmoking = person.isSmoking;
     this.haveChildren = person.haveChildren;
@@ -102,8 +101,8 @@ export class FormPractiseComponent {
     if (!this.validateForm()) {
       return;
     }
-
-    this.selectedperson.name = this.personsname;
+    this.selectedperson.name = this.name;
+    this.selectedperson.lastname = this.nameLast;
     this.selectedperson.birthDate = parseISO(this.birthDateText);
     this.selectedperson.isSmoking = this.isSmoking;
     this.selectedperson.haveChildren = this.haveChildren;
@@ -114,60 +113,33 @@ export class FormPractiseComponent {
   }
 
   private reset(): void {
-    this.personsname = '';
+    this.name = '';
+    this.nameLast = '';
     this.birthDateText = '';
+    this.haveChildren = false;
+    this.noOfChildren = 0;
     this.selectedperson = null;
+    delete this.errorMessageArray;
   }
 
   private save(): void {
-    localStorage.setItem('aile', JSON.stringify(this.aile));
+    localStorage.setItem('family', JSON.stringify(this.family));
   }
 
   private validateForm(): boolean {
-    this.errorMessage = '';
-    if (this.personsname === '') {
-      this.errorMessage = ' * Name can not be empty * ';
+    this.errorMessageArray = [];
+    if (this.name === '') {
+      this.errorMessageArray.push('Name can not be empty');
     }
-    return this.errorMessage.length === 0
-  }
-}
-
-interface PersonData {
-  _name: string;
-  _lastname: string;
-  birthDate: string;
-  haveChildren: boolean;
-  isSmoking: string;
-  noOfChildren: number;
-}
-
-class Person {
-  birthDate: Date = new Date();
-  haveChildren: boolean = true;
-  isSmoking: string = '';
-  noOfChildren: number;
-
-  get name(): string {
-    return this._name;
-  }
-  set name(value) {
-    this._name = value;
-  }
-  private _name = '';
-
-  get lastname(): string {
-    return this._lastname;
-  }
-  set lastname(value) {
-    this._lastname = value;
-  }
-  private _lastname = '';
-
-  get fullname(): string {
-    return this._name + " " + this._lastname;
-  }
-  
-  get age(): number {
-    return differenceInYears(new Date(), this.birthDate);
+    if (this.nameLast === '') {
+      this.errorMessageArray.push('Last name can not be empty');
+    }
+    if (!isValid(parseISO(this.birthDateText))) {
+      this.errorMessageArray.push('Date is invaild');
+    }
+    if (this.haveChildren && this.noOfChildren === 0) {
+      this.errorMessageArray.push('Please answer: "How many children do you have?"');
+    }
+    return this.errorMessageArray.length === 0;
   }
 }

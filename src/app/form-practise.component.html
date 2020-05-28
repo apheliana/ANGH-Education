@@ -3,12 +3,12 @@
 
 <div>
   What's your name?
-  <input [(ngModel)]="personsname" />
+  <input [(ngModel)]="name" />
 </div>
 
 <div>
   What's your last name?
-  <input [(ngModel)]="personslastname" />
+  <input [(ngModel)]="nameLast" />
 </div>
 
 <div>
@@ -18,8 +18,8 @@
 
 <div>
   Are you smoking?
-  <input type="radio" value="Yes" name="smoking" [(ngModel)]="isSmoking" /> Yes
-  <input type="radio" value="No" name="smoking" [(ngModel)]="isSmoking" /> No
+  <input type="radio" [value]="true" name="smoking" [(ngModel)]="isSmoking" /> Yes
+  <input type="radio" [value]="false" name="smoking" [(ngModel)]="isSmoking" /> No
 </div>
 
 <div>
@@ -43,7 +43,11 @@
   <input [(ngModel)]="searchAll" /> <button (click)="searchInAll()">Search</button>
 </div>
 
-<div *ngIf="errorMessage !== ''" class="Warning">{{ errorMessage }}</div>
+<div *ngIf="errorMessageArray" class="Warning">
+  <ul *ngFor="let errorMessage of errorMessageArray">
+    <li>{{ errorMessage }}</li>
+  </ul>
+</div>
 
 <div *ngIf="viewState == 'add'">
   <button (click)="enterPersonsInfo()">Add New Row</button>
@@ -55,7 +59,7 @@
 </div>
 
 <br>
-<div *ngIf="aile.length > 0; else noUser">
+<div *ngIf="familyResult.length > 0; else noUser">
   <table border="1">
     <tr>
       <th>Full Name</th>
@@ -66,11 +70,11 @@
       <th>Delete</th>
       <th>Select</th>
     </tr>
-    <tr *ngFor="let person of aileResult">
-      <td>{{person.fullname}}</td>
-      <td>{{person.birthDate}}</td>
+    <tr *ngFor="let person of familyResult">
+      <td>{{person.nameFull}}</td>
+      <td>{{person.birthDateText}}</td>
       <td>{{person.age}}</td>
-      <td>{{person.isSmoking}}</td>
+      <td>{{person.isSmokingText}}</td>
       <td *ngIf="!person.noOfChildren">None </td>
       <td *ngIf="person.noOfChildren">Yes ({{person.noOfChildren}})</td>
       <td><button (click)="deleteRow(person)">Delete Row</button></td>
@@ -79,5 +83,9 @@
   </table>
 </div>
 <ng-template #noUser>
-  Please add a new person.
+  <div class="Warning">
+    <ul>
+      <li>Please add new data.</li>
+    </ul>
+  </div>
 </ng-template>
