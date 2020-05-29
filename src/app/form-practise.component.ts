@@ -3,12 +3,16 @@ import { format, parseISO, isValid } from 'date-fns';
 import { Person } from './Person';
 import { PersonData } from './PersonData';
 import { HttpClient } from '@angular/common/http';
+import { Key } from 'protractor';
 
 @Component({
   templateUrl: './form-practise.component.html',
   styleUrls: ['./form-practise.component.css'],
 })
 export class FormPractiseComponent {
+  apiArray: any[][];
+  apiResult: Rates;
+  oneEuro: Exchange;
   family: Person[] = [];
   familyResult : Person[] = [];
   birthDateText: string = '';
@@ -43,9 +47,27 @@ export class FormPractiseComponent {
     }
   }
 
-  getAPI(): void {
+  getAPI() {
     const url = 'https://api.exchangeratesapi.io/latest';
-    this.httpClient.get(url).subscribe(result => console.log('r', result));
+    this.httpClient.get<Exchange>(url).subscribe(result => {
+      const exchange = new Exchange();
+      exchange.base = result.base;
+      exchange.date = result.date;
+      exchange.rates = result.rates;
+      console.log('exchange', exchange);
+      console.log('base', exchange.base);
+      console.log('date', exchange.date);
+      console.log('rates', exchange.rates);
+      this.apiResult = exchange.rates;
+      console.log('apiResult', this.apiResult);
+
+      console.log('f1', Object.keys(exchange.rates));
+      console.log('f2', Object.values(exchange.rates));
+      const apiArray = Object.keys(exchange.rates).map((key) => [key, exchange.rates[key]]);
+      console.log('apiArray', apiArray);
+      this.apiArray = apiArray;
+    })
+
   }
 
   cancelPersonsInfo(): void {
@@ -148,3 +170,89 @@ export class FormPractiseComponent {
     return this.errorMessageArray.length === 0;
   }
 }
+
+declare module namespace {
+
+  export interface Rates {
+      CAD: number;
+      HKD: number;
+      ISK: number;
+      PHP: number;
+      DKK: number;
+      HUF: number;
+      CZK: number;
+      AUD: number;
+      RON: number;
+      SEK: number;
+      IDR: number;
+      INR: number;
+      BRL: number;
+      RUB: number;
+      HRK: number;
+      JPY: number;
+      THB: number;
+      CHF: number;
+      SGD: number;
+      PLN: number;
+      BGN: number;
+      TRY: number;
+      CNY: number;
+      NOK: number;
+      NZD: number;
+      ZAR: number;
+      USD: number;
+      MXN: number;
+      ILS: number;
+      GBP: number;
+      KRW: number;
+      MYR: number;
+  }
+
+  export interface RootObject {
+      rates: Rates;
+      base: string;
+      date: string;
+  }
+
+}
+
+class Exchange {
+  rates: Rates;
+  base: string;
+  date: string;
+}
+class Rates {
+  CAD: number;
+  HKD: number;
+  ISK: number;
+  PHP: number;
+  DKK: number;
+  HUF: number;
+  CZK: number;
+  AUD: number;
+  RON: number;
+  SEK: number;
+  IDR: number;
+  INR: number;
+  BRL: number;
+  RUB: number;
+  HRK: number;
+  JPY: number;
+  THB: number;
+  CHF: number;
+  SGD: number;
+  PLN: number;
+  BGN: number;
+  TRY: number;
+  CNY: number;
+  NOK: number;
+  NZD: number;
+  ZAR: number;
+  USD: number;
+  MXN: number;
+  ILS: number;
+  GBP: number;
+  KRW: number;
+  MYR: number;
+}
+
