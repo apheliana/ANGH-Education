@@ -11,15 +11,15 @@ export class Person {
     this._name = value;
   }
   private _name = '';
-  get lastname(): string {
-    return this._lastname;
+  get nameLast(): string {
+    return this._nameLast;
   }
-  set lastname(value) {
-    this._lastname = value;
+  set nameLast(value) {
+    this._nameLast = value;
   }
-  private _lastname = '';
+  private _nameLast = '';
   get nameFull(): string {
-    return this._name + " " + this._lastname;
+    return this._name + " " + this._nameLast;
   }
   get age(): number {
     return differenceInYears(new Date(), this.birthDate);

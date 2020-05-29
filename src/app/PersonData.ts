@@ -1,6 +1,6 @@
 export interface PersonData {
   _name: string;
-  _lastname: string;
+  _nameLast: string;
   birthDate: string;
   haveChildren: boolean;
   isSmoking: boolean;

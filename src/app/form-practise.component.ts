@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { format, parseISO, isValid } from 'date-fns';
-import { areAllEquivalent, ArrayType } from '@angular/compiler/src/output/output_ast';
 import { Person } from './Person';
 import { PersonData } from './PersonData';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   templateUrl: './form-practise.component.html',
@@ -23,7 +23,7 @@ export class FormPractiseComponent {
   selectedperson: Person = null;
   viewState: 'add' | 'update' = 'add';
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     const familyJSON = localStorage.getItem('family');
     const family = JSON.parse(familyJSON) as PersonData[];
     if (family !== null) {
@@ -31,7 +31,7 @@ export class FormPractiseComponent {
         console.log('dataItem', dataItem);
         const person = new Person();
         person.name = dataItem._name;
-        person.lastname = dataItem._lastname;
+        person.nameLast = dataItem._nameLast;
         person.birthDate = parseISO(dataItem.birthDate);
         person.isSmoking = dataItem.isSmoking;
         person.haveChildren = dataItem.haveChildren;
@@ -41,6 +41,11 @@ export class FormPractiseComponent {
       });
       this.familyResult  = this.family;
     }
+  }
+
+  getAPI(): void {
+    const url = 'https://api.exchangeratesapi.io/latest';
+    this.httpClient.get(url).subscribe(result => console.log('r', result));
   }
 
   cancelPersonsInfo(): void {
@@ -61,7 +66,7 @@ export class FormPractiseComponent {
     }
     const family = new Person();
     family.name = this.name;
-    family.lastname = this.nameLast;
+    family.nameLast = this.nameLast;
     family.birthDate = parseISO(this.birthDateText);
     family.isSmoking = this.isSmoking;
     family.haveChildren = this.haveChildren;
@@ -88,7 +93,7 @@ export class FormPractiseComponent {
 
   selectRow(person: Person): void {
     this.name = person.name;
-    this.nameLast = person.lastname;
+    this.nameLast = person.nameLast;
     this.birthDateText = format(person.birthDate, 'yyyy-MM-dd');
     this.isSmoking = person.isSmoking;
     this.haveChildren = person.haveChildren;
@@ -102,7 +107,7 @@ export class FormPractiseComponent {
       return;
     }
     this.selectedperson.name = this.name;
-    this.selectedperson.lastname = this.nameLast;
+    this.selectedperson.nameLast = this.nameLast;
     this.selectedperson.birthDate = parseISO(this.birthDateText);
     this.selectedperson.isSmoking = this.isSmoking;
     this.selectedperson.haveChildren = this.haveChildren;

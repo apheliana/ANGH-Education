@@ -21,7 +21,7 @@ export class ArraysComponent {
         //console.log('dataItem', dataItem);
         const person = new PersonObj();
         person.name = dataItem._name;
-        person.lastname = dataItem._lastname;
+        person.nameLast = dataItem._nameLast;
         person.haveChildren = dataItem.haveChildren;
         person.noOfChildren = dataItem.noOfChildren;
         //console.log('person', person);
@@ -55,7 +55,7 @@ export class ArraysComponent {
   enterPersonsInfo(): void {
     const people = new PersonObj();
     people.name = this.name;
-    people.lastname = this.nameLast;
+    people.nameLast = this.nameLast;
     people.haveChildren = this.haveChildren;
     people.noOfChildren = this.noOfChildren;
 
@@ -87,14 +87,14 @@ class PersonObj {
     this._name = value;
   }
   private _name = '';
-  get lastname(): string {
-    return this._lastname;
+  get nameLast(): string {
+    return this._nameLast;
   }
-  set lastname(value) {
-    this._lastname = value;
+  set nameLast(value) {
+    this._nameLast = value;
   }
-  private _lastname = '';
+  private _nameLast = '';
   get nameFull(): string {
-    return this._name + " " + this._lastname;
+    return this._name + " " + this._nameLast;
   }
 }
