@@ -10,6 +10,7 @@ import { DataTypesComponent } from './data-types.component';
 import { UsernameComponent } from './username.component';
 import { OperationsComponent } from './operations.component';
 import { FormPractiseComponent } from './form-practise.component';
+import { APIPractiseComponent } from './api-practise.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FormPractiseComponent } from './form-practise.component';
     DataTypesComponent,
     UsernameComponent,
     OperationsComponent,
-    FormPractiseComponent
+    FormPractiseComponent,
+    APIPractiseComponent,
   ],
   imports: [
     BrowserModule,
