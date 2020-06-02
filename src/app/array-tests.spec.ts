@@ -1,4 +1,4 @@
-import { newArray } from "@angular/compiler/src/util";
+import { Person } from './Person';
 
 describe('Array Tests', () => {
     it('Sanity check', () => {
@@ -71,28 +71,28 @@ describe('Array Tests', () => {
 
     it('splice test', () => {
         const array: string[] = ["a", "c", "d"];
-        this.array = array.splice(1, 0, "b"); //index1'e "b" ekle hiçbir şey silme
+        array.splice(1, 0, "b"); //index1'e "b" ekle hiçbir şey silme
         expect(array).toEqual(["a", "b", "c", "d"]);
     })
 
     it('splice test - 2', () => {
         const array: string[] = ["a", "c", "d"];
-        this.array = array.splice(1, 2, "b", "c", "d"); //index1 dahil iki eleman (c ve d) sil, b,c,d ekle.
+        array.splice(1, 2, "b", "c", "d"); //index1 dahil iki eleman (c ve d) sil, b,c,d ekle.
         expect(array).toEqual(["a", "b", "c", "d"]);
     })
 
     it('splice test - 3', () => {
         const array: string[] = ["a", "b", "c", "c", "d"];
-        this.array = array.splice(2, 1); //index2'deki bir elemanı sil.
+        array.splice(2, 1); //index2'deki bir elemanı sil.
         expect(array).toEqual(["a", "b", "c", "d"]);
     })
 
     it('slice test', () => {
         const array: string[] = ["a", "b", "c", "d"];
-        const newArray = array.slice(2);
-        expect(newArray).toEqual(["c", "d"]);
+        const slicedArray = array.slice(2);
+        expect(slicedArray).toEqual(["c", "d"]);
         console.log('slice test orijinal array',array); // orijinal değişmiyor ["a", "b", "c", "d"]
-        console.log('slice test sliced array',newArray); // ["c", "d"]
+        console.log('slice test sliced array',slicedArray); // ["c", "d"]
     })
 
     it('sort test', () => {
@@ -100,15 +100,20 @@ describe('Array Tests', () => {
         expect(fruits.sort()).toEqual(["Apple", "Banana", "Mango", "Orange"]); //sayılarda işe yaramıyor
     })
 
+    it('sort test - sayilar', () => {
+        const numbers = [10, 5, 1, 0, -1];
+        expect(numbers.sort((a, b) => a - b)).toEqual([-1, 0, 1, 5, 10]);
+    })
+
     it('reverse test', () => {
-        const array = [4,3,2,1];
-        expect(array.reverse()).toEqual([1,2,3,4]);
+        const array = [4, 3, 2, 1];
+        expect(array.reverse()).toEqual([1, 2, 3, 4]);
     })
     
     it('map test', () => {
         const array = [1,2,3,4];
         const square = array.map(item => {
-            return item = item * item;
+            return item * item;
             }
         )
         expect(square).toEqual([1,4,9,16]);
@@ -161,7 +166,21 @@ describe('Array Tests', () => {
         const array = [6,5,4,3,2,1,0];
         expect(array.fill(9,2,5)).toEqual([6,5,9,9,9,1,0]); // index no 2'den başla 5'e kadar (5 hariç!!!!) 9 yap
     })
+    
+    it('sort test - person age', () => {
+        // Assign
+        const p1 = new Person();
+        p1.birthDate = new Date(1990, 1, 1); // age: 30
+        const p2 = new Person();
+        p2.birthDate = new Date(2000, 1, 1); // age: 20
 
+        // Act
+        const people = [p1, p2].sort((a, b) => a.age - b.age);
+
+        // Assert
+        expect(people[0]).toBe(p2);
+        expect(people[1]).toBe(p1);
+    });
 });
 
 
