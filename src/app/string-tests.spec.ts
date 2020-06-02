@@ -1,6 +1,6 @@
 import { concat } from "rxjs";
 
-fdescribe('String Tests', () => {
+describe('String Tests', () => {
     it('Sanity check', () => {
       expect(1 + 1).toBe(2);
     })
