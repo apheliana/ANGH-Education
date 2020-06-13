@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { format, parseISO, isValid } from 'date-fns';
 import { Person } from './Person';
 import { PersonData } from './PersonData';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   templateUrl: './form-practise.component.html',
@@ -22,9 +23,12 @@ export class FormPractiseComponent {
   selectedperson: Person = null;
   viewState: 'add' | 'update' = 'add';
 
+  displayedColumns: string[] = ['nameFull', 'birthDateText', 'age', 'smoking', 'noOfChildren', 'deleteRow', 'selectRow'];
+
   constructor() {
     const familyJSON = localStorage.getItem('family');
     const family = JSON.parse(familyJSON) as PersonData[];
+
     if (family !== null) {
       this.family = family.map(dataItem => {
         const person = new Person();
@@ -36,7 +40,7 @@ export class FormPractiseComponent {
         person.noOfChildren = dataItem.noOfChildren;
         return person;
       });
-      this.familyResult  = this.family;
+      this.familyResult = this.family;
     }
   }
 

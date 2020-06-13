@@ -16,6 +16,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -37,6 +40,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatRadioModule,
     MatInputModule,
     MatDatepickerModule,
+    MatButtonModule,
+    MatTableModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

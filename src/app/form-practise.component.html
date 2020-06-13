@@ -68,39 +68,60 @@ OR this
 </div>
 
 <div *ngIf="viewState == 'add'">
-  <button (click)="enterPersonsInfo()">Add New Row</button>
+  <button mat-raised-button color="primary" (click)="enterPersonsInfo()">Add New Row</button>
 </div>
 
 <div *ngIf="viewState == 'update'">
-  <button (click)="updatePersonsInfo()">Update</button>
-  <button (click)="cancelPersonsInfo()">Cancel</button>
+  <button mat-raised-button color="accent" (click)="updatePersonsInfo()">Update</button>
+  <button mat-raised-button color="warn" (click)="cancelPersonsInfo()">Cancel</button>
 </div>
+<br>
 
+<mat-table [dataSource]="familyResult">
+
+  <ng-container matColumnDef="nameFull">
+    <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
+    <mat-cell *matCellDef="let person"> {{person.nameFull}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="birthDateText">
+    <mat-header-cell *matHeaderCellDef> Birth Date </mat-header-cell>
+    <mat-cell *matCellDef="let person"> {{person.birthDateText}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="age">
+    <mat-header-cell *matHeaderCellDef> Age </mat-header-cell>
+    <mat-cell *matCellDef="let person"> {{person.age}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="smoking">
+    <mat-header-cell *matHeaderCellDef> Smoking? </mat-header-cell>
+    <mat-cell *matCellDef="let person"> {{person.isSmokingText}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="noOfChildren">
+    <mat-header-cell *matHeaderCellDef> Children </mat-header-cell>
+    <mat-cell *matCellDef="let person"> 
+      <div *ngIf="person.noOfChildren">Yes ({{person.noOfChildren}})</div>
+      <div *ngIf="!person.noOfChildren">None</div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="deleteRow">
+    <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+    <mat-cell *matCellDef="let person"> <button mat-mini-fab color="warn" (click)="deleteRow(person)">Del</button> </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="selectRow">
+    <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+    <mat-cell *matCellDef="let person"> <button mat-mini-fab color="accent" (click)="selectRow(person)">Sel</button> </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
 <br>
-<div *ngIf="familyResult.length > 0; else noUser">
-  <table border="1">
-    <tr>
-      <th>Full Name</th>
-      <th>Birth Date</th>
-      <th>Age</th>
-      <th>Smoking?</th>
-      <th>Children</th>
-      <th>Delete</th>
-      <th>Select</th>
-    </tr>
-    <tr *ngFor="let person of familyResult">
-      <td>{{person.nameFull}}</td>
-      <td>{{person.birthDateText}}</td>
-      <td>{{person.age}}</td>
-      <td>{{person.isSmokingText}}</td>
-      <td *ngIf="!person.noOfChildren">None </td>
-      <td *ngIf="person.noOfChildren">Yes ({{person.noOfChildren}})</td>
-      <td><button (click)="deleteRow(person)">Delete Row</button></td>
-      <td><button (click)="selectRow(person)">Select Row</button></td>
-    </tr>
-  </table>
-</div>
-<br>
+
 <div>
   Search by name:
   <input [(ngModel)]="searchName" /> <button (click)="searchByName()">Search</button>
