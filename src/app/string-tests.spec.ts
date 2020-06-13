@@ -41,7 +41,7 @@ describe('String Tests', () => {
         expect(string.search(/bc f/)).toEqual(9); //The search function takes a regular expression /regular/, which allows you to match against more sophisticated patterns, case-insensitive strings, etc., while indexOf simply matches a literal string. However, indexOf also allows you to specify a beginning index.
     })
 
-    it('slice string', () => {
+    it('slice string', () => { //use substring instead.
         const string: string = "abc def abc fed ABC CBA";
         expect(string.slice(4, 11)).toEqual("def abc"); 
     })
@@ -58,7 +58,7 @@ describe('String Tests', () => {
 
     it('substring string', () => {
         const string: string = "abc def abc fed ABC CBA";
-        expect(string.substring(9, 15)).toEqual("bc fed"); //parameters start-end index no
+        expect(string.substring(9, 15)).toEqual("bc fed"); //parameters start-end index no. you can swap them to change direction of the cut.
     })
 
     it('toLowerCase string', () => {

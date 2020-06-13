@@ -1,47 +1,65 @@
 
 <h3>Form Practise</h3>
 
-<div>
-  What's your name?
-  <input [(ngModel)]="name" />
-</div>
-
-<div>
-  What's your last name?
-  <input [(ngModel)]="nameLast" />
-</div>
+<mat-form-field>
+  <mat-label>What's your name?</mat-label>
+  <input matInput placeholder="Name?" [(ngModel)]="name" />
+</mat-form-field>
+<br>
+<mat-form-field>
+  <mat-label>What's your last name?</mat-label>
+  <input matInput placeholder="Last name?" [(ngModel)]="nameLast" />
+</mat-form-field>
+<br>
 
 <div>
   What's your birth date?
   <input type="date" [(ngModel)]="birthDateText" />
 </div>
+<br>
+
+<!-- 
+  This is not working
+<input [matDatepicker]="myDatepicker">
+<mat-datepicker #myDatepicker></mat-datepicker>
+
+OR this
+
+  <mat-form-field>
+  <mat-label>What's your birth date?</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="birthDateText">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+-->
 
 <div>
-  Are you smoking?
-  <input type="radio" [value]="true" name="smoking" [(ngModel)]="isSmoking" /> Yes
-  <input type="radio" [value]="false" name="smoking" [(ngModel)]="isSmoking" /> No
-</div>
+  <label id="are-you-smoking">Are you Smoking?</label>
+<mat-radio-group 
+  name="smoking"
+  aria-labelledby="are-you-smoking"
+  class="radio-group"
+  [(ngModel)]="isSmoking"> <!--aria-label="Are you Smoking?"  not working-->
+    <mat-radio-button class="radio-button" [value]="true" > Yes </mat-radio-button>
+    <mat-radio-button class="radio-button" [value]="false" > No </mat-radio-button>
+</mat-radio-group></div>
 
 <div>
-  Do you have children?
-  <input type="radio" [value]="true" name="haveChildren" [(ngModel)]="haveChildren" /> Yes
-  <input type="radio" [value]="false" name="haveChildren" [(ngModel)]="haveChildren" /> No
-</div>
+  <label id="do-you-have-children">Do you have children?</label>
+<mat-radio-group 
+  name="haveChildren"
+  aria-labelledby="do-you-have-children"
+  class="radio-group"
+  [(ngModel)]="haveChildren"> <!--aria-label=""  not working-->
+    <mat-radio-button class="radio-button" [value]="true" > Yes </mat-radio-button>
+    <mat-radio-button class="radio-button" [value]="false" > No </mat-radio-button>
+</mat-radio-group></div>
 
-<div *ngIf="haveChildren">
-  How many children do you have?
-  <input [(ngModel)]="noOfChildren" />
-</div>
-
-<div>
-  Search by name:
-  <input [(ngModel)]="searchName" /> <button (click)="searchByName()">Search</button>
-</div>
-
-<div>
-  Search everything:
-  <input [(ngModel)]="searchAll" /> <button (click)="searchInAll()">Search</button>
-</div>
+<mat-form-field *ngIf="haveChildren">
+  <label id="how-many-children">How many children do you have?</label>
+  <input matInput aria-labelledby="how-many-children" [(ngModel)]="noOfChildren" />
+</mat-form-field>
 
 <div *ngIf="errorMessageArray" class="Warning">
   <ul *ngFor="let errorMessage of errorMessageArray">
@@ -82,6 +100,17 @@
     </tr>
   </table>
 </div>
+<br>
+<div>
+  Search by name:
+  <input [(ngModel)]="searchName" /> <button (click)="searchByName()">Search</button>
+</div>
+
+<div>
+  Search everything:
+  <input [(ngModel)]="searchAll" /> <button (click)="searchInAll()">Search</button>
+</div>
+
 <ng-template #noUser>
   <div class="Warning">
     <ul>

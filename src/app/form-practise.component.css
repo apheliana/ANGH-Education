@@ -3,3 +3,23 @@
   color: red;
   text-align: left;
 }
+
+h3 {
+  text-align: center;
+  background-color: lightgrey;
+  color: purple;
+}
+
+.mat-form-field {
+  margin-right: 12px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.radio-button {
+  margin: 5px;
+}
