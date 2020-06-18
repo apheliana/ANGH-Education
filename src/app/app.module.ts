@@ -18,7 +18,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatButtonModule,
     MatTableModule,
-
+    MatMenuModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

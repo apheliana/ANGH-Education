@@ -1,20 +1,44 @@
+
 <div>
-  <h2>Course index</h2>
+  <h2>Welcome to ANGH Education Page</h2>
 </div>
 
-<div>Format: https://material.angular.io (Alternative: https://material.io/design)</div>
+<mat-drawer-container class="example-container" autosize>
+
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>
+      Serkan Holat<br>
+      Fatih Soylemez
+    </p>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Show creators
+    </button>
+  </div>
+  
+</mat-drawer-container>
 
 <div class="content" role="main">
-  <ul>
-    <li><a routerLink="/username">User name - Example</a></li>
-    <li><a routerLink="/operations">Basic Operations - Example</a></li>
-    <li><a routerLink="/data-types">Data types - Subject</a></li>
-    <li><a routerLink="/arrays">Arrays - Subject</a></li>
-    <li><a routerLink="/form-practise">Form Practise</a></li>
-    <li><a routerLink="/api-practise">API Practise</a></li>
-  </ul>
+  <button mat-button routerLink="">Home</button>
+
+  <button mat-button [matMenuTriggerFor]="menuLessons">Lessons</button>
+  <mat-menu #menuLessons="matMenu">
+    <button mat-menu-item routerLink="/data-types">Data Types</button>
+    <button mat-menu-item routerLink="/arrays">Arrays</button>
+    <button mat-menu-item routerLink="/notes">Notes</button>
+  </mat-menu>
+  
+  <button mat-button [matMenuTriggerFor]="menuExamples">Examples</button>
+  <mat-menu #menuExamples="matMenu">
+    <button mat-menu-item routerLink="/username">User Name</button>
+    <button mat-menu-item routerLink="/operations">Operations</button>
+    <button mat-menu-item routerLink="/form-practise">Forms</button>
+    <button mat-menu-item routerLink="/api-practise">APIs</button>
+  </mat-menu>
 </div>
 
-<mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+
 
 <router-outlet></router-outlet>

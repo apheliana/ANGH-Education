@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: './data-types.component.html'
+  templateUrl: './data-types.component.html',
+  styleUrls: ['./general.css'],
 })
 export class DataTypesComponent {
   constructor() {

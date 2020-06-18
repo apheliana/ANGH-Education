@@ -5,6 +5,7 @@ import { ExchangeRate } from './ExchangeRate';
 
 @Component({
   templateUrl: './api-practise.component.html',
+  styleUrls: ['./general.css'],
 })
 export class APIPractiseComponent {
   apiArray: ExchangeRate[] = [];

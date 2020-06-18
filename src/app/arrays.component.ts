@@ -3,6 +3,7 @@ import { PersonData } from './PersonData'; //interface
 
 @Component({
   templateUrl: './arrays.component.html',
+  styleUrls: ['./general.css'],
 })
 export class ArraysComponent {
   people: PersonObj[] = [];

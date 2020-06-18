@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { format, parseISO, isValid } from 'date-fns';
 import { Person } from './Person';
 import { PersonData } from './PersonData';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   templateUrl: './form-practise.component.html',
